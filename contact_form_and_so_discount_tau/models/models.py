@@ -6,13 +6,13 @@ class Partner(models.Model):
     _inherit = 'res.partner'
 
     x_number_sequence = fields.Char(string='Partner sequence number:')
-    x_partner_type = fields.Selection([('customer', 'Customer'), ('vendor', 'Vendor')], default='customer', require="True", string="Partner type")
+    x_partner_type = fields.Selection([('customer', 'Customer'), ('vendor', 'Vendor')], default='customer', string="Partner type")
 
 
-    @api.model
-    def create(self, vals):
-        if 'x_partner_type' in vals and 'x_number_sequence' in vals:
-            if vals['x_partner_type'] == 'customer':
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get('x_partner_type', 'customer') == 'customer':
                 vals['x_number_sequence'] = self.env['ir.sequence'].next_by_code('customer.number')
             else:
                 vals['x_number_sequence'] = self.env['ir.sequence'].next_by_code('vendor.number')
