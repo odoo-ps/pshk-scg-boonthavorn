@@ -1,0 +1,37 @@
+<odoo>
+  <data>
+        <record id="res_partner_credit_limit_set" model="ir.ui.view">
+            <field name="name">res.partner.credit.limit.set</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='company_type']" position="after">
+                    <br/>
+                    <field name="id" invisible="1"/>
+                    <field name="x_partner_type" widget="radio" options="{'horizontal': true}" attrs="{'invisible': [('id', '!=', False)]}"/>
+                </xpath>
+                <xpath expr="//field[@name='type']" position="before">
+                    <field name="x_number_sequence" string="Partner sequence number:" readonly="1"/><br/>
+                </xpath>
+
+                <xpath expr="//field[@name='vat']" position="after">
+                    <field name="credit_limit"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="sales_order_amount_discount" model="ir.ui.view">
+            <field name="name">sales.order.amount.discount</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="x_percent_discount"/>
+                </xpath>
+                <xpath expr="//field[@name='amount_untaxed']" position="after">
+                    <field name="x_amount_discount" readonly="1"/>
+                </xpath>
+            </field>
+        </record>
+  </data>
+</odoo>
