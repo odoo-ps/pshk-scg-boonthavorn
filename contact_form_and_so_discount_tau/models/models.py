@@ -6,17 +6,17 @@ class Partner(models.Model):
     _inherit = 'res.partner'
 
     x_number_sequence = fields.Char(string='Partner sequence number:')
-    x_partner_type = fields.Selection([('customer', 'Customer'), ('vendor', 'Vendor')], default='customer', require="True", string="Partner type")
+    x_partner_type = fields.Selection([('customer', 'Customer'), ('vendor', 'Vendor')], default='customer', string="Partner type")
 
 
-    @api.model
-    def create(self, vals):
-        if 'x_partner_type' in vals and 'x_number_sequence' in vals:
-            if vals['x_partner_type'] == 'customer':
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get('x_partner_type', 'customer') == 'customer':
                 vals['x_number_sequence'] = self.env['ir.sequence'].next_by_code('customer.number')
             else:
                 vals['x_number_sequence'] = self.env['ir.sequence'].next_by_code('vendor.number')
-            return super(Partner, self).create(vals)
+        return super(Partner, self).create(vals_list)
 
 
 class SaleOrder(models.Model):
@@ -49,6 +49,6 @@ class SaleOrder(models.Model):
 
 
     def action_confirm(self):
-        if self.sudo().partner_id.total_due >= self.partner_id.credit_limit:
+        if self.sudo().partner_id.total_due > self.partner_id.credit_limit:
             raise UserError("You cannot confirm this sales order due to customer's overdue is over credit limit.")
         return super(SaleOrder, self).action_confirm()
