@@ -28,30 +28,23 @@ class PurchaseOrder(models.Model):
 
         # start merging
         merged_po = self.env['purchase.order'].create({
-            'partner_id': vendor.id
+            'partner_id': vendor.id,
+            'origin': ', '.join([rec.origin for rec in self if rec.origin ]),
+            'picking_type_id': picking_type_id.id,
         })
 
-        # # check if order line has a sale_order_id in selected PO
-        # if self.mapped('order_line.sale_line_id'):
-
-        # self[0].mapped('order_line').write({'order_id': merged_po.id}) # merge the first purchase order
-
-        for purchase_order in self: # loop remaining purchase order
+        for purchase_order in self:
             for line in purchase_order.order_line:
-                print(line.id)
-                print(merged_po.order_line.ids)
-                if line.product_id in [merged_line.product_id for merged_line in merged_po.order_line]: # if have same product
-                    if line.sale_order_id: # append the order line
+                sale_line_id = purchase_order._get_sale_orders() | purchase_order.order_line.move_dest_ids.group_id.sale_id | purchase_order.order_line.move_ids.move_dest_ids.group_id.sale_id
+                if line.product_id in merged_po.order_line.mapped('product_id'):
+                    if sale_line_id: # append the order line
                         line.write({'order_id': merged_po.id})
                     else: # add the quantity
-                        target_line = merged_po.order_line.filtered(lambda x: x.product_id == line.product_id)
+                        target_line = merged_po.order_line.filtered(lambda x: x.product_id == line.product_id and not (x.move_dest_ids.group_id.sale_id | x.move_ids.move_dest_ids.group_id.sale_id))
                         if target_line:
-                            target_line.product_qty = target_line.product_qty + line.product_qty
+                            target_line.product_qty += line.product_qty
                 else: # append the order line
                     line.write({'order_id': merged_po.id})
-
-        # else: #add the quantity
-        #     self.mapped('order_line').write({'order_id': merged_po.id})
 
         # add log note in the chatter
         message_string = ""
