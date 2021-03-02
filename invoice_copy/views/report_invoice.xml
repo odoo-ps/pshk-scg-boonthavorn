@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="external_layout_original_copy" inherit_id="web.external_layout" primary="True">
+        <xpath expr="t[@t-call='web.external_layout_standard']" position="attributes">
+            <attribute name="t-call">invoice_copy.external_layout_standard_original_copy</attribute>
+        </xpath>
+    </template>
+
+    <template id="external_layout_standard_original_copy" inherit_id="web.external_layout_standard" primary="True">
+        <xpath expr="//div[@name='company_address']" position="after">
+            <div t-if="o.state == 'posted'" class="col-6 mt-3 text-center o_bold">
+                <h1>
+                    <t t-if="o.x_report_is_copy or (context and context.get('is_copy'))">COPY</t>
+                    <t t-else="">ORIGINAL</t>
+                </h1>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="report_invoice_document" inherit_id="account.report_invoice_document">
+        <xpath expr="t[@t-call='web.external_layout']" position="attributes">
+            <attribute name="t-call">invoice_copy.external_layout_original_copy</attribute>
+        </xpath>
+    </template>
+</odoo>
