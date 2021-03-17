@@ -1,0 +1,23 @@
+<odoo>
+    <data>
+        <record id="res_partner_credit_limit_set" model="ir.ui.view">
+            <field name="name">res.partner.credit.limit.set</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='company_type']" position="after">
+                    <br/>
+                    <field name="id" invisible="1"/>
+                    <field name="x_partner_type" string="Contact type:" attrs="{'readonly': [('id', '!=', False)]}"/>
+                </xpath>
+                <xpath expr="//field[@name='type']" position="before">
+                    <field name="x_number_sequence" string="Partner sequence number:" attrs="{'readonly':['|', ('x_partner_type','=','customer'), ('x_partner_type','=','vendor')]}"/>
+                </xpath>
+                <xpath expr="//field[@name='vat']" position="after">
+                    <field name="x_credit_limit_is_invisible" invisible="1"/>
+                    <field name="credit_limit" widget="monetary" options="{'currency_field':'currency_id'}" attrs="{'invisible':[('x_credit_limit_is_invisible', '=', True)]}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

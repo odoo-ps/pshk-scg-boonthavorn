@@ -1,0 +1,39 @@
+<odoo>
+    <data>
+        <record id="sales_order_amount_discount" model="ir.ui.view">
+            <field name="name">sales.order.amount.discount</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="context">{'res_partner_search_mode': 'customer', 'show_address': 1, 'show_vat': True, 'from_sale': True}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_invoice_id']" position="attributes">
+                    <attribute name="context">{'default_type':'invoice', 'from_sale': True}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_shipping_id']" position="attributes">
+                    <attribute name="context">{'default_type':'delivery', 'from_sale': True}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="is_credit_limit_invisible" invisible="1"/>
+                    <field name="x_customer_available_credit_limit_amount" widget="monetary" options="{'currency_field':'currency_id'}" attrs="{'invisible':[('is_credit_limit_invisible', '=', True)]}"/>
+                    <field name="x_percent_discount"/>
+                </xpath>
+                <xpath expr="//field[@name='amount_untaxed']" position="after">
+                    <field name="x_amount_discount" readonly="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <template id="report_invoice_document_inherit_sale" inherit_id="sale.report_saleorder_document">
+            <xpath expr="//tr[@class='border-black o_subtotal']" position="after">
+                <tr>
+                    <td><strong>Amount Discount</strong></td>
+                    <td class="text-right">
+                        <span t-field="doc.x_amount_discount"/>
+                    </td>
+                </tr>
+            </xpath>
+        </template>
+    </data>
+</odoo>
