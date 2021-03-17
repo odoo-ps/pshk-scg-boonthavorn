@@ -1,0 +1,68 @@
+<odoo>
+    <data>
+        <record id="res_partner_credit_limit_set" model="ir.ui.view">
+            <field name="name">res.partner.credit.limit.set</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='company_type']" position="after">
+                    <br/>
+                    <field name="id" invisible="1"/>
+                    <field name="x_partner_type" string="Contact type:" attrs="{'readonly': [('id', '!=', False)]}"/>
+                </xpath>
+                <xpath expr="//field[@name='type']" position="before">
+                    <field name="x_number_sequence" string="Partner sequence number:" attrs="{'readonly':['|', ('x_partner_type','==','customer'), ('x_partner_type','==','vendor')]}"/>
+                </xpath>
+                <xpath expr="//field[@name='vat']" position="after">
+                    <field name="credit_limit" widget="monetary" options="{'currency_field':'currency_id'}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="sales_order_amount_discount" model="ir.ui.view">
+            <field name="name">sales.order.amount.discount</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="context">{'res_partner_search_mode': 'customer', 'show_address': 1, 'show_vat': True, 'from_sale': True}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_invoice_id']" position="attributes">
+                    <attribute name="context">{'default_type':'invoice', 'from_sale': True}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_shipping_id']" position="attributes">
+                    <attribute name="context">{'default_type':'delivery', 'from_sale': True}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="x_customer_available_credit_limit_amount" widget="monetary" options="{'currency_field':'currency_id'}"/>
+                    <field name="x_percent_discount"/>
+                </xpath>
+                <xpath expr="//field[@name='amount_untaxed']" position="after">
+                    <field name="x_amount_discount" readonly="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="purchase_order_context" model="ir.ui.view">
+            <field name="name">purchase.order.context</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="context">{'res_partner_search_mode': 'supplier', 'show_vat': True, 'from_purchase': True}</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <template id="report_invoice_document_inherit_sale" inherit_id="sale.report_saleorder_document">
+            <xpath expr="//tr[@class='border-black o_subtotal']" position="after">
+                <tr>
+                    <td><strong>Amount Discount</strong></td>
+                    <td class="text-right">
+                        <span t-field="doc.x_amount_discount"/>
+                    </td>
+                </tr>
+            </xpath>
+        </template>
+    </data>
+</odoo>
