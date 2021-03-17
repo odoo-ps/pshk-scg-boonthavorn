@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="sequence_customer_number_seq" model="ir.sequence">
+        <field name="name">Contact number sequence</field>
+        <field name="code">customer.number</field>
+        <field name="prefix">C</field>
+    </record>
+
+    <record id="sequence_vendor_number_seq" model="ir.sequence">
+        <field name="name">Contact number sequence</field>
+        <field name="code">vendor.number</field>
+        <field name="prefix">V</field>
+    </record>
+</odoo>
