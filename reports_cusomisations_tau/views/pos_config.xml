@@ -1,0 +1,41 @@
+<odoo>
+    <record id="view_pos_config_form_custom" model="ir.ui.view">
+        <field name="name">pos.config.form.custom</field>
+        <field name="model">pos.config</field>
+        <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='company']" position="after">
+                <div class="col-12 col-lg-6 o_setting_box">
+                    <div class="o_setting_right_pane">
+                        <span class="o_form_label">POS ID</span><br/>
+                        <field name="x_pos_id"/>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 o_setting_box">
+                    <div class="o_setting_right_pane">
+                        <span class="o_form_label">Payment Terms</span><br/>
+                        <field name="x_payment_term"/>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 o_setting_box">
+                    <div class="o_setting_right_pane">
+                        <span class="o_form_label">Currency ID</span><br/>
+                        <field name="x_khr_currency_id"/>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 o_setting_box">
+                    <div class="o_setting_right_pane">
+                        <span class="o_form_label">Sequence Prefix</span><br/>
+                        <field name="x_custom_sequence_prefix"/>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 o_setting_box">
+                    <div class="o_setting_right_pane">
+                        <span class="o_form_label">Sequence Number</span><br/>
+                        <field name="x_custom_sequence_number"/>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
