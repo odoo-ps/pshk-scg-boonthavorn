@@ -1,0 +1,15 @@
+<odoo>
+    <data>
+        <template id="report_purchase_order_inherit" inherit_id="purchase.report_purchaseorder_document">
+            <xpath expr="//th[@name='th_amount']" position="after">
+                <th name="th_discount" class="text-right"><strong>Discount (%)</strong></th>
+            </xpath>
+
+            <xpath expr="//span[@t-field='line.price_subtotal']/.." position="after">
+                <td class="text-right">
+                    <span t-field="line.x_line_percent_discount"/>
+                </td>
+            </xpath>
+        </template>
+    </data>
+</odoo>
