@@ -1,0 +1,32 @@
+<odoo>
+    <data>
+        <template id="report_invoice_document_inherit" inherit_id="account.report_invoice_document">
+            <xpath expr="//tr[@class='border-black o_total']" position="after">
+                <t t-set="currency_khr" t-value="env.ref('base.KHR')"/>
+                <tr class="border-black o_total" t-if="o.currency_id != currency_khr">
+                    <td><strong>Grand Total in KHR</strong></td>
+                    <td class="text-right">
+                        <span t-esc="o.currency_id._convert(o.amount_total, currency_khr, o.company_id, datetime.date.today())" t-options='{"widget": "monetary", "display_currency": currency_khr}'/>
+                    </td>
+                </tr>
+            </xpath>
+
+            <xpath expr="//div[@id='qrcode']" position="after">
+                <div class="row">
+                    <div class="col-4">
+                        <strong>Cashier</strong>
+                        <br/><br/><br/><br/>
+                        <div style="border-top: 1px solid black"/>
+                        <span t-field="o.x_cashier"/>
+                    </div>
+                    <div class="offset-4 col-4">
+                        <strong>Approve by</strong>
+                        <br/><br/><br/><br/>
+                        <div style="border-top: 1px solid black"/>
+                        <span t-field="o.x_approved_by"/>
+                    </div>
+                </div>
+            </xpath>
+        </template>
+    </data>
+</odoo>

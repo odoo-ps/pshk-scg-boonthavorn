@@ -1,0 +1,13 @@
+<odoo>
+    <record id="view_invoice_form_custom" model="ir.ui.view">
+        <field name="name">account.move.form.custom</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoice_vendor_bill_id']" position="after">
+                <field name="x_cashier"/>
+                <field name="x_approved_by"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
