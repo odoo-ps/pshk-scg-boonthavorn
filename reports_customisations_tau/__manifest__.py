@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 
 {
-'name': "reports_cusomisations_tau",
+'name': "reports_customisations_tau",
 'version': '14.0.1.0',
 'author': 'OdooHK-TAU',
-'description': 'Reports customisation',
 'depends': ['purchase', 'account', 'sale', 'point_of_sale', 'hr'],
 'data': [
     'views/account_move.xml',
