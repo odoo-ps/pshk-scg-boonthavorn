@@ -16,5 +16,5 @@ class ProductTemplate(models.Model):
             num = seq.next_by_code('product.template.service')
         elif p_type == "consu":
             num = seq.next_by_code('product.template.consumable')
-        vals['product_running_number'] = num
+        vals['default_code'] = num
         return super(ProductTemplate, self).create(vals)

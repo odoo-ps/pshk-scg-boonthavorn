@@ -21,7 +21,6 @@
     "data": [
         "data/sequences.xml",
         "views/account_asset.xml",
-        "views/product_template.xml",
     ],
     # Only used to link to the analysis / Ps-tech store
     "task_id": [2516119],
