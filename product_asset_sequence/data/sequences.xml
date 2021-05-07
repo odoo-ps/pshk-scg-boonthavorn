@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="sequence_account_asset" model="ir.sequence">
+            <field name="name">Account Asset Sequence</field>
+            <field name="code">account.asset</field>
+            <field name="prefix">AA</field>
+            <field name="number_next" eval="1"/>
+            <field name="number_increment" eval="1"/>
+        </record>
+
+        <record id="sequence_product_template_storable" model="ir.sequence">
+            <field name="name">Product Template Storable</field>
+            <field name="code">product.template.storable</field>
+            <field name="prefix">PTSO</field>
+            <field name="number_next" eval="1"/>
+            <field name="number_increment" eval="1"/>
+        </record>
+
+        <record id="sequence_product_template_service" model="ir.sequence">
+            <field name="name">Product Template Service</field>
+            <field name="code">product.template.service</field>
+            <field name="prefix">PTSE</field>
+            <field name="number_next" eval="1"/>
+            <field name="number_increment" eval="1"/>
+        </record>
+
+        <record id="sequence_product_template_consumable" model="ir.sequence">
+            <field name="name">Product Template Consumable</field>
+            <field name="code">product.template.consumable</field>
+            <field name="prefix">PTC</field>
+            <field name="number_next" eval="1"/>
+            <field name="number_increment" eval="1"/>
+        </record>
+    </data>
+</odoo>
